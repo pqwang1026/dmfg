@@ -54,6 +54,14 @@ FiniteDiffSolver::FiniteDiffSolver(int nx, int nt, CyberGameModel &model)
   gH0 = new double[3];  gE0 = new double[3];
   g1H = new double[3];  g2H = new double[3];  g3H = new double[3];  g4H = new double[3];
   g1E = new double[3];  g2E = new double[3];  g3E = new double[3];  g4E = new double[3];
+  
+  //Open file for recording the optimal strategy
+  strFileBeta12H = fopen("/Users/peiqiw/Documents/DMFG/data/beta12H.txt", "w");
+  strFileBeta34H = fopen("/Users/peiqiw/Documents/DMFG/data/beta34H.txt", "w");
+  strFileBeta12E = fopen("/Users/peiqiw/Documents/DMFG/data/beta12E.txt", "w");
+  strFileBeta34E = fopen("/Users/peiqiw/Documents/DMFG/data/beta34E.txt", "w");
+  strFileAlphaH = fopen("/Users/peiqiw/Documents/DMFG/data/alphaH.txt", "w");
+  strFileAlphaE = fopen("/Users/peiqiw/Documents/DMFG/data/alphaE.txt", "w");
 }
 
 FiniteDiffSolver::~FiniteDiffSolver() {
@@ -68,6 +76,10 @@ FiniteDiffSolver::~FiniteDiffSolver() {
   delete [] piE; delete [] piH; delete [] gH0; delete [] gE0;
   delete [] g1H; delete [] g2H; delete [] g3H; delete [] g4H;
   delete [] g1E; delete [] g2E; delete [] g3E; delete [] g4E;
+  
+  fclose(strFileBeta12H); fclose(strFileBeta34H);
+  fclose(strFileBeta12E); fclose(strFileBeta34E);
+  fclose(strFileAlphaH); fclose(strFileAlphaE);
 }
 
 int FiniteDiffSolver::Index(int i, int j, int k) {
@@ -622,5 +634,24 @@ int FiniteDiffSolver::Step() {
     UpdateMidLayer(k);
   }
   UpdateTop();
+  return 0;
+}
+
+int FiniteDiffSolver::PrintStrategy() {
+  for (int k = 0; k <= nx_; k++) {
+    for (int j = 0; j <= nx_ - k; j++) {
+      for (int i = 0; i <= nx_ - k - j; i++) {
+        fprintf(strFileBeta12H, "%15.8f ", beta12H[k][Index(i,j,k)]);
+        fprintf(strFileBeta34H, "%15.8f ", beta34H[k][Index(i,j,k)]);
+        fprintf(strFileBeta12E, "%15.8f ", beta12E[k][Index(i,j,k)]);
+        fprintf(strFileBeta34E, "%15.8f ", beta34E[k][Index(i,j,k)]);
+        fprintf(strFileAlphaH, "%15.8f ", alphaH[k][Index(i,j,k)]);
+        fprintf(strFileAlphaE, "%15.8f ", alphaE[k][Index(i,j,k)]);
+      }
+    }
+    fprintf(strFileBeta12H, "\n");  fprintf(strFileBeta34H, "\n");
+    fprintf(strFileBeta12E, "\n");  fprintf(strFileBeta34E, "\n");
+    fprintf(strFileAlphaH, "\n");  fprintf(strFileAlphaE, "\n");
+  }
   return 0;
 }

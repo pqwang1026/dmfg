@@ -67,6 +67,10 @@ public:
   double x12; // sum of x1 and x2;
   int thisIndex; //index of this point
   
+  // File for output
+  FILE * strFileBeta12H, * strFileBeta34H, * strFileBeta12E, * strFileBeta34E;
+  FILE * strFileAlphaH, * strFileAlphaE;
+  
   // constructor: initialize the solver
   FiniteDiffSolver(int nx, int nt, CyberGameModel &model);
 
@@ -172,6 +176,9 @@ public:
   
   //Compute optimal strategy
   int ComputeOptimalStrategy(int k, int thisIndex, double x1, double x2, double x3);
+  
+  //Output optimal strategy
+  int PrintStrategy();
 };
 
 #endif

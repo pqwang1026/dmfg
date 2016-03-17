@@ -38,14 +38,16 @@ double CyberGameModel::Beta(double v1, double v2) {
 
 double CyberGameModel::AlphaH(double vH_0, double vE_0, double p1, double p2, double p3, \
                               double x1, double x2, double x3) {
-  return Lambda((dH_ * (vE_0 - vH_0) + aD_ * x3 * (p1 - p3) + \
+  // return Lambda((dH_ * (vE_0 - vH_0) + aD_ * x3 * (p1 - p3) + \
                  aU_ * (1 - x1 - x2 - x3) * p2) / kA_);
+  return (dH_ * (vE_0 - vH_0) + aD_ * x3 * (p1 - p3) + aU_ * (1 - x1 - x2 - x3) * p2) / kA_;
 }
 
 double CyberGameModel::AlphaE(double vH_0, double vE_0, double p1, double p2, double p3, \
                               double x1, double x2, double x3) {
-  return Lambda((dE_ * (vE_0 - vH_0) + aD_ * x3 * (p1 - p3) + \
+  // return Lambda((dE_ * (vE_0 - vH_0) + aD_ * x3 * (p1 - p3) + \
                  aU_ * (1 - x1 - x2 - x3) * p2) / kA_);
+  return (dE_ * (vE_0 - vH_0) + aD_ * x3 * (p1 - p3) + aU_ * (1 - x1 - x2 - x3) * p2) / kA_;
 }
 
 int CyberGameModel::Pi(double* result, double x1, double x2, double x3, \

@@ -23,21 +23,21 @@ int main() {
   const double bUU = 1.6;
   
   // coef of effectiveness on defended/undefended user
-  const double aD = 1.2;
-  const double aU = 0.6;
+  const double aD = 0.08;
+  const double aU = 0.06;
   
   // linear coefficients for transition rate of attacker
-  const double cE = 0.5;
-  const double dE = 0.5;
-  const double cH = 1.0;
-  const double dH = 1.0;
+  const double cE = 0.25;
+  const double dE = 0.01;
+  const double cH = 0.05;
+  const double dH = 0.005;
   
-  const double e0 = 1.0; // income rate for attacker
-  const double e = 1.0;// utility rate for user
+  const double e0 = 0.1; // income rate for attacker
+  const double e = 0.1;// utility rate for user
   const double kI = 0.25; // cost of being infected
   const double kE = 0.25;  // cost of being exposed
-  const double kD = 1.0; // cost of security effort
-  const double kA = 1.0; // cost of attack effort
+  const double kD = 0.1; // cost of security effort
+  const double kA = 0.1; // cost of attack effort
   
   const double T = 1.0; // horizon of the game
   
@@ -47,10 +47,21 @@ int main() {
   const int nx = 100;
   
   FiniteDiffSolver* Solver = new FiniteDiffSolver(nx, nt, *Model);
-  for (int t = 0; t < 50; t++) {
+  for (int t = 0; t < 30; t++) {
     Solver->Step();
   }
-  printf("%4.8f \n", Solver->v1E[0][Solver->Index(100,0,0)]);
+  //Solver->FlipArrays();
+  //Solver->GradientInnerPoint(1, 1, 1);
+  //printf("%15.8f %15.8f %15.8f \n", Solver->gE0[0], Solver->gE0[1], Solver->gE0[2]);
+  //printf("%15.8f %15.8f \n", Solver->vE0[1][Solver->Index(1,1,1)], Solver->vH0[1][Solver->Index(1,1,1)]);
+  //Solver->ComputeOptimalStrategy(1, Solver->Index(1,1,1), 0.01, 0.01, 0.01);
+  //double a = Model->AlphaE(Solver->vH0[1][Solver->Index(1,1,1)], Solver->vE0[1][Solver->Index(1,1,1)], \
+  //Solver->gE0[0], Solver->gE0[1], Solver->gE0[2], 0.01, 0.01, 0.01);
+  //printf("%15.8f \n", a);
+  //printf("%15.8f %15.8f \n", Solver->alphaE[1][Solver->Index(1,1,1)], Solver->alphaH[1][Solver->Index(1,1,1)]);
+  
+  Solver->PrintStrategy();
+  //printf("%4.8f \n", Solver->beta34H[0][Solver->Index(50,0,0)]);
   
   delete Solver;
   delete Model;
